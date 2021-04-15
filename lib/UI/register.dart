@@ -1,16 +1,20 @@
+import 'package:befit_app/UI/Login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
-import 'home.dart';
-import 'map.dart';
 
-class Login extends StatefulWidget {
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'map.dart';
+import 'home.dart';
+
+class Register extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   var _formKey = GlobalKey<FormState>();
 
   void _submit() {
@@ -62,7 +66,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Register"),
         backgroundColor: Colors.indigo.shade900,
       ),
       backgroundColor: Colors.white,
@@ -73,12 +77,52 @@ class _LoginState extends State<Login> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                'asset/login.png',
-                width: 1600,
-                height: 160,
+                'asset/register.png',
+                width: 100,
+                height: 100,
               ),
+
+              //styling
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.1,
+                height: MediaQuery.of(context).size.width * 0.03,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                    //  contentPadding: new EdgeInsets.symmetric(vertical: 0.0),
+                    contentPadding: EdgeInsets.only(top: 20),
+                    border: InputBorder.none,
+                    prefixIcon: Padding(
+                      // padding: EdgeInsets.all(0.0),
+                      padding: EdgeInsets.only(top: 14),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.grey,
+                      ), // icon is 48px widget.
+                    ),
+                    hintText: 'Name',
+                    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
+
+                // maxLength: 8,
+
+                keyboardType: TextInputType.text,
+                onFieldSubmitted: (value) {
+                  //Validator
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'This field is required';
+                  } else if (value.length < 3 ||
+                      value.length > 8 ||
+                      !RegExp('[a-zA-Z]').hasMatch(value)) {
+                    return ' valid Name  should between 3 and 8 characters';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.03,
               ),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -90,12 +134,14 @@ class _LoginState extends State<Login> {
                       child: Icon(
                         Icons.email,
                         color: Colors.grey,
-                      ),
+                      ), // icon is 48px widget.
                     ),
                     hintText: 'E-Mail',
                     hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
                 keyboardType: TextInputType.emailAddress,
-                onFieldSubmitted: (value) {},
+                onFieldSubmitted: (value) {
+                  //Validator
+                },
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'This field is required';
@@ -111,38 +157,11 @@ class _LoginState extends State<Login> {
                   return null;
                 },
               ),
+
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.03,
               ),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 20),
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(top: 14),
-                      child: Icon(
-                        Icons.lock,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    hintText: 'Password',
-                    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
-                maxLength: 10,
-                keyboardType: TextInputType.text,
-                onFieldSubmitted: (value) {},
-                obscureText: true,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'This field is required';
-                  }
-                  if (value.length < 5) {
-                    return 'Password should have at least 5 characters';
-                  }
 
-                  return null;
-                },
-              ),
               TextFormField(
                 readOnly: true,
 
@@ -200,17 +219,88 @@ class _LoginState extends State<Login> {
                 //   return null;
                 // },
               ),
-              Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Container(
-                  // padding: EdgeInsets.only(bottom:102),
-                  width: 150,
 
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.03,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 20),
+                    border: InputBorder.none,
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(top: 14),
+                      child: Icon(
+                        Icons.phone,
+                        color: Colors.grey,
+                      ), // icon is 48px widget.
+                    ),
+                    hintText: 'Phone',
+                    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
+                keyboardType: TextInputType.phone,
+                onFieldSubmitted: (value) {
+                  //Validator
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'This field is required';
+                  }
+                  if (!RegExp(
+                    r'^01([1-9])?[0-9]{9}$',
+                  ).hasMatch(value)) {
+                    return ' valid phone number should be 11 digits';
+                  }
+                  return null;
+                },
+              ),
+              //box styling
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.03,
+              ),
+
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 20),
+                    border: InputBorder.none,
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(top: 14),
+                      child: Icon(
+                        Icons.lock,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
+                maxLength: 10,
+                keyboardType: TextInputType.text,
+                onFieldSubmitted: (value) {},
+                obscureText: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'This field is required';
+                  }
+                  if (value.length < 5) {
+                    return 'Password should have at least 5 characters';
+                  }
+
+                  return null;
+                },
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.1,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: 150,
                   child: FloatingActionButton(
                     onPressed: () => {
                       _submit(),
                     },
-                    child: Text("Login",
+                    child: Text("Register",
                         style: TextStyle(color: Colors.white, fontSize: 20)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
@@ -218,6 +308,19 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+
+              GestureDetector(
+                  child: Text("you already have account? Login",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  }),
             ],
           ),
         ),
