@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  static final String path = "lib/src/pages/onboarding/intro6.dart";
+  static String routeName = "/OnboardingScreen";
+
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }

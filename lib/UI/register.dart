@@ -1,4 +1,5 @@
 import 'package:befit_app/UI/Login.dart';
+import 'package:befit_app/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,8 @@ import 'map.dart';
 import 'home.dart';
 
 class Register extends StatefulWidget {
+  static String routeName = "/Register";
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -84,7 +87,7 @@ class _RegisterState extends State<Register> {
 
               //styling
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.03,
+                height: getProportionateScreenHeight(context, 0.03),
               ),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -122,7 +125,7 @@ class _RegisterState extends State<Register> {
               ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.03,
+                height: getProportionateScreenHeight(context, 0.03),
               ),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -159,7 +162,7 @@ class _RegisterState extends State<Register> {
               ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.03,
+                height: getProportionateScreenHeight(context, 0.03),
               ),
 
               TextFormField(
@@ -221,7 +224,7 @@ class _RegisterState extends State<Register> {
               ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.03,
+                height: getProportionateScreenHeight(context, 0.03),
               ),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -255,7 +258,7 @@ class _RegisterState extends State<Register> {
               ),
               //box styling
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.03,
+                height: getProportionateScreenHeight(context, 0.03),
               ),
 
               TextFormField(
@@ -289,7 +292,7 @@ class _RegisterState extends State<Register> {
               ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.1,
+                height: getProportionateScreenHeight(context, 0.1),
               ),
 
               Padding(

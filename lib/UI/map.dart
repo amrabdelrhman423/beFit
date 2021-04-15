@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Mapscreen extends StatefulWidget {
+  static String routeName = "/MapScreen";
+
   final String myValue;
   final double longitude;
   final double latitude;

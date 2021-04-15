@@ -6,6 +6,8 @@ import 'home.dart';
 import 'map.dart';
 
 class Login extends StatefulWidget {
+  static String routeName = "/Login";
+
   @override
   _LoginState createState() => _LoginState();
 }

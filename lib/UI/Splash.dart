@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:befit_app/UI/Onboarding.dart';
+import 'package:befit_app/size_config.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {
+  static String routeName = "/Splash";
+
   @override
   _SplashState createState() => _SplashState();
 }
@@ -13,8 +16,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     // TODO: implement initState
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => OnboardingScreen()));
+      Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
     });
     super.initState();
   }
@@ -40,8 +42,8 @@ class _SplashState extends State<Splash> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.height * 0.25,
+                width: getProportionateScreenWidth(context, 0.50),
+                height: getProportionateScreenHeight(context, 0.25),
                 margin: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                     image: DecorationImage(
