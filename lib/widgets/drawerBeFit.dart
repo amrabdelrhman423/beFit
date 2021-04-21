@@ -1,3 +1,4 @@
+import 'package:befit_app/UI/Profile.dart';
 import 'package:flutter/material.dart';
 
 class DrwerBeFit extends StatelessWidget {
@@ -73,7 +74,9 @@ class DrwerBeFit extends StatelessWidget {
                         "My Profile",
                         style: TextStyle(color: Colors.blue),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, ProfilePage.routeName);
+                      },
                     ),
                     ListTile(
                       title: Text(

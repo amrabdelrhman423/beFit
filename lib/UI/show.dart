@@ -57,20 +57,25 @@ class _ShowState extends State<Show> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : Padding(
-                padding: const EdgeInsets.all(4),
-                child: GridView.builder(
-                  primary: false,
-                  padding: const EdgeInsets.all(4),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: gyms.length,
-                  itemBuilder: (context, index) {
-                    return GymItem(gyms[index]['img'], gyms[index]['gym_Name']);
-                  },
-                )));
+            : data == []
+                ? Center(
+                    child: Text("لا يوجد"),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: GridView.builder(
+                      primary: false,
+                      padding: const EdgeInsets.all(4),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: gyms.length,
+                      itemBuilder: (context, index) {
+                        return GymItem(
+                            gyms[index]['img'], gyms[index]['gym_Name']);
+                      },
+                    )));
   }
 }

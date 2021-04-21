@@ -1,19 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'home.dart';
-import 'map.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Login extends StatefulWidget {
-  static String routeName = "/Login";
+class LoginOwner extends StatefulWidget {
+  static String routeName = "/LoginOwner";
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginAdminState createState() => _LoginAdminState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginAdminState extends State<LoginOwner> {
   var _formKey = GlobalKey<FormState>();
   bool _success;
   var emailvalue;
@@ -25,7 +24,8 @@ class _LoginState extends State<Login> {
           .signInWithEmailAndPassword(
               email: emailvalue, password: passwordvalue)
           .then((value) {
-        Navigator.pushNamed(context, HomePage.routeName);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeOwner()));
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -49,10 +49,10 @@ class _LoginState extends State<Login> {
     if (!isValid) {
       return;
     }
+    _formKey.currentState.save();
 
     _auth();
 
-    _formKey.currentState.save();
     // Navigator.push(
     //   context,
     //   MaterialPageRoute(builder: (context) => Home()),
@@ -96,7 +96,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("LoginOwner"),
         backgroundColor: Colors.indigo.shade900,
       ),
       backgroundColor: Colors.white,
@@ -107,7 +107,7 @@ class _LoginState extends State<Login> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                'asset/login.png',
+                'asset/login_owner.jpg',
                 width: 1600,
                 height: 160,
               ),
@@ -170,12 +170,12 @@ class _LoginState extends State<Login> {
                 maxLength: 10,
                 keyboardType: TextInputType.text,
                 onFieldSubmitted: (value) {},
+                obscureText: true,
                 onChanged: (value) {
                   setState(() {
                     passwordvalue = value.trim();
                   });
                 },
-                obscureText: true,
                 validator: (passwordvalue) {
                   if (passwordvalue.isEmpty) {
                     return 'This field is required';
@@ -187,69 +187,6 @@ class _LoginState extends State<Login> {
                   return null;
                 },
               ),
-              Text(
-                _success == null || _success == true
-                    ? ''
-                    : "The account already exists for that email.",
-                style: TextStyle(color: Colors.red),
-              ),
-              TextFormField(
-                readOnly: true,
-
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 20),
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(top: 14),
-                      child: GestureDetector(
-                        onTap: getCurrentUserLocation,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Mapscreen(
-                                        latitude: userLatitude,
-                                        longitude: userLongitude)));
-
-                            setState(() {
-                              ispressed = true;
-                            });
-                          },
-                          child: Icon(
-                            // onPressed: () => {
-                            //   Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (context) => Mapscreen(
-                            //               latitude: userLatitude,
-                            //               longitude: userLongitude))),
-                            //   setState(() {
-                            //     ispressed = true;
-                            //   }),
-                            // },
-                            Icons.location_on,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ),
-                    hintText: 'Location',
-                    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
-
-                keyboardType: TextInputType.streetAddress,
-                onFieldSubmitted: (value) {
-                  //Validator
-                },
-                // validator: (ispressed) {
-
-                //   if (ispressed != true) {
-                //     return 'use Gps to take a valid location !';
-                //   }
-                //   return null;
-                // },
-              ),
               Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Container(
@@ -260,7 +197,7 @@ class _LoginState extends State<Login> {
                     onPressed: () => {
                       _submit(),
                     },
-                    child: Text("Login",
+                    child: Text(" Login",
                         style: TextStyle(color: Colors.white, fontSize: 20)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),

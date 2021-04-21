@@ -1,5 +1,4 @@
 import 'package:befit_app/UI/Login.dart';
-import 'package:befit_app/UI/Owner/register.dart';
 import 'package:befit_app/size_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,21 +6,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'map.dart';
+import 'Login.dart';
 import 'home.dart';
 
-class Register extends StatefulWidget {
-  static String routeName = "/Register";
+class RegisterOwner extends StatefulWidget {
+  static String routeName = "/RegisterOwner";
 
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegisterOwnerState createState() => _RegisterOwnerState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterOwnerState extends State<RegisterOwner> {
   var _formKey = GlobalKey<FormState>();
 
   final databaseRef = FirebaseDatabase.instance.reference();
@@ -32,14 +29,13 @@ class _RegisterState extends State<Register> {
   var passwordvalue;
   var namevalue;
   var phonevalue;
-
   Future<void> _auth() async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailvalue, password: passwordvalue)
           .then((value) {
-        databaseRef.child("Users").child(auth.currentUser.uid).set({
+        databaseRef.child("Owners").child(auth.currentUser.uid).set({
           'userid': auth.currentUser.uid,
           'name': namevalue,
           'email': emailvalue,
@@ -47,14 +43,15 @@ class _RegisterState extends State<Register> {
           'Longitude': userLongitude,
           'Latitude': userLatitude,
         });
-        Navigator.pushNamed(context, HomePage.routeName);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
-
+        // Scaffold.of(context).showSnackBar(const SnackBar(
+        //   content: Text("The account already exists for that email.")
+        // ));
         setState(() {
           _success = false;
         });
@@ -71,6 +68,11 @@ class _RegisterState extends State<Register> {
     }
 
     _auth();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomeOwner()),
+    );
   }
 
   @override
@@ -110,7 +112,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Register"),
+        title: Text("Owner Register"),
         backgroundColor: Colors.indigo.shade900,
       ),
       backgroundColor: Colors.white,
@@ -121,9 +123,9 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                'asset/register.png',
-                width: 100,
-                height: 100,
+                'asset/register_owner.png',
+                width: 150,
+                height: 150,
               ),
 
               //styling
@@ -158,12 +160,12 @@ class _RegisterState extends State<Register> {
                     namevalue = value.trim();
                   });
                 },
-                validator: (namevalue) {
-                  if (namevalue.isEmpty) {
+                validator: (value) {
+                  if (value.isEmpty) {
                     return 'This field is required';
-                  } else if (namevalue.length < 3 ||
-                      namevalue.length > 8 ||
-                      !RegExp('[a-zA-Z]').hasMatch(namevalue)) {
+                  } else if (value.length < 3 ||
+                      value.length > 8 ||
+                      !RegExp('[a-zA-Z]').hasMatch(value)) {
                     return ' valid Name  should between 3 and 8 characters';
                   }
                   return null;
@@ -214,42 +216,6 @@ class _RegisterState extends State<Register> {
 
               SizedBox(
                 height: getProportionateScreenWidth(context, 0.03),
-              ),
-
-              TextFormField(
-                readOnly: true,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 20),
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(top: 14),
-                      child: GestureDetector(
-                        onTap: getCurrentUserLocation,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Mapscreen(
-                                        latitude: userLatitude,
-                                        longitude: userLongitude)));
-
-                            setState(() {
-                              ispressed = true;
-                            });
-                          },
-                          child: Icon(
-                            Icons.location_on,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ),
-                    hintText: 'Location',
-                    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
-                keyboardType: TextInputType.streetAddress,
-                onFieldSubmitted: (value) {},
               ),
 
               SizedBox(
@@ -330,6 +296,9 @@ class _RegisterState extends State<Register> {
                 },
               ),
 
+              SizedBox(
+                height: getProportionateScreenWidth(context, 0.1),
+              ),
               Text(
                 _success == null || _success == true
                     ? ''
@@ -355,7 +324,7 @@ class _RegisterState extends State<Register> {
               ),
 
               GestureDetector(
-                  child: Text("you already have account? Login",
+                  child: Text(" have account? Login As Owner",
                       style: TextStyle(
                           color: Colors.blue,
                           fontSize: 16,
@@ -363,28 +332,7 @@ class _RegisterState extends State<Register> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    );
-                  }),
-              // Text(
-              //   _success == null || _success ==true ? '': "The account already exists for that email.",
-              //   style: TextStyle(color: Colors.red),
-
-              // ),
-
-              GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text("Register As Owner ? ",
-                        style: TextStyle(
-                            color: Colors.indigo.shade900,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterOwner()),
+                      MaterialPageRoute(builder: (context) => LoginOwner()),
                     );
                   }),
             ],

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:befit_app/UI/Onboarding.dart';
+import 'package:befit_app/UI/home.dart';
 import 'package:befit_app/size_config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {
@@ -14,9 +16,17 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
-    });
+    FirebaseAuth auth = FirebaseAuth.instance;
+    if (auth.currentUser != null) {
+      Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacementNamed(context, HomePage.routeName);
+      });
+    } else {
+      Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+      });
+    }
+
     super.initState();
   }
 
