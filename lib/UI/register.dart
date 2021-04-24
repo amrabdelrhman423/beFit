@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'map.dart';
@@ -23,6 +24,9 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   var _formKey = GlobalKey<FormState>();
+  static const likedKey = 'liked_key';
+
+  bool liked;
 
   final databaseRef = FirebaseDatabase.instance.reference();
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -66,7 +70,7 @@ class _RegisterState extends State<Register> {
 
   Future<void> _submit() async {
     final isValid = _formKey.currentState.validate();
-    if (!isValid) {
+    if (!isValid && liked == true) {
       return;
     }
 
@@ -77,6 +81,19 @@ class _RegisterState extends State<Register> {
   initState() {
     super.initState();
     getCurrentUserLocation();
+    _restorePersistedPreference();
+  }
+
+  void _restorePersistedPreference() async {
+    var preferences = await SharedPreferences.getInstance();
+    var liked = preferences.getBool(likedKey) ?? false;
+    setState(() => this.liked = liked);
+  }
+
+  void _persistPreference() async {
+    setState(() => liked = !liked);
+    var preferences = await SharedPreferences.getInstance();
+    preferences.setBool(likedKey, liked);
   }
 
   double userLongitude;
@@ -224,27 +241,43 @@ class _RegisterState extends State<Register> {
                     border: InputBorder.none,
                     prefixIcon: Padding(
                       padding: EdgeInsets.only(top: 14),
-                      child: GestureDetector(
-                        onTap: getCurrentUserLocation,
-                        child: GestureDetector(
-                          onTap: () {
+                      //     child: GestureDetector(
+                      //       onTap: getCurrentUserLocation,
+                      //       child: GestureDetector(
+                      //         onTap: () {
+                      //           Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                   builder: (context) => Mapscreen(
+                      //                       latitude: userLatitude,
+                      //                       longitude: userLongitude)));
+
+                      //         //   setState(() {
+                      //         //     ispressed = true;
+                      //         //   });
+                      //         // },
+                      //         // child: Icon(
+                      //         //   Icons.location_on,
+                      //         //   color: Colors.grey,
+                      //         // ),
+                      child: IconButton(
+                          icon: Icon(
+                            liked
+                                ? Icons.location_on
+                                : Icons.location_on_outlined,
+                            color: liked ? Colors.black : Colors.grey,
+                          ),
+                          onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Mapscreen(
                                         latitude: userLatitude,
                                         longitude: userLongitude)));
-
-                            setState(() {
-                              ispressed = true;
-                            });
-                          },
-                          child: Icon(
-                            Icons.location_on,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
+                            _persistPreference();
+                          }),
+                      //       ),
+                      //     ),
                     ),
                     hintText: 'Location',
                     hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey)),
@@ -366,11 +399,10 @@ class _RegisterState extends State<Register> {
                       MaterialPageRoute(builder: (context) => Login()),
                     );
                   }),
-              // Text(
-              //   _success == null || _success ==true ? '': "The account already exists for that email.",
-              //   style: TextStyle(color: Colors.red),
-
-              // ),
+              Text(
+                liked == true ? '' : "open gps.",
+                style: TextStyle(color: Colors.red),
+              ),
 
               GestureDetector(
                   child: Padding(

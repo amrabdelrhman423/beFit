@@ -1,5 +1,6 @@
 import 'package:befit_app/UI/show.dart';
 import 'package:befit_app/UI/showclasses.dart';
+import 'package:befit_app/size_config.dart';
 import 'package:befit_app/widgets/drawerBeFit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -8,8 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 class HomePage extends StatefulWidget {
   static String routeName = "/Home";
   String title;
-  //  double screenHeight;
-  //  double screenWidth;
+
   HomePage({Key key, this.title}) : super(key: key);
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
@@ -63,7 +63,7 @@ class _MyStatefulWidgetState extends State<HomePage> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: () {
@@ -77,7 +77,7 @@ class _MyStatefulWidgetState extends State<HomePage> {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: () {
@@ -85,7 +85,7 @@ class _MyStatefulWidgetState extends State<HomePage> {
                     },
                     child: _buildGym(
                         'asset/a82ab5ec-a56f-4b7e-960b-7c182c796f8a.jpg',
-                        'Class',
+                        'Classes',
                         Alignment.bottomRight),
                   ),
                 ],

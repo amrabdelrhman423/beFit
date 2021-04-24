@@ -13,6 +13,8 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+enum authProblems { UserNotFound, PasswordNotValid, NetworkError }
+
 class _LoginState extends State<Login> {
   var _formKey = GlobalKey<FormState>();
   bool _success;
@@ -27,21 +29,43 @@ class _LoginState extends State<Login> {
           .then((value) {
         Navigator.pushNamed(context, HomePage.routeName);
       });
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        //    SnackBar(
-        //   backgroundColor: Colors.black,
-        //   content: Text(
-        //     'Error occurred using Sign-In. Try again.',
-        //     style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-        //   ),
-        // );
-
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
+      _showMyDialog();
     }
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('wrong password or email'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('email or password wrong'),
+                Text(
+                    'You have entered the wrong email or password, please try again'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _submit() async {

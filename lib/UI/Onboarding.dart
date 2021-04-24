@@ -30,9 +30,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     Colors.black54,
   ];
   final List<String> images = [
-    "https://ichef.bbci.co.uk/news/976/cpsprodpb/C05C/production/_113744294_gettyimages-1183038884.jpg",
-    "https://ichef.bbci.co.uk/news/976/cpsprodpb/C312/production/_115083994_gym2.jpg",
-    "https://previews.123rf.com/images/tonobalaguer/tonobalaguer1405/tonobalaguer140500178/28672021-zumba-dance-cardio-people-group-training-at-fitness-gym-workout-exercise.jpg",
+    "asset/image2.jpg",
+    "asset/image4.jpg",
+    "asset/image9.jpg",
   ];
 
   @override

@@ -32,6 +32,8 @@ dependencies:
   location: ^4.1.1
   google_maps_flutter: ^0.5.22+2
   google_nav_bar: ^5.0.3
+  flutter_credit_card: ^2.0.0
+  shared_preferences: ^2.0.5
 
   #firebase
   firebase_core: ^1.0.3
@@ -39,7 +41,11 @@ dependencies:
   firebase_database: ^6.1.2
   hexcolor: ^2.0.3
   maps_toolkit: ^1.1.0+2
-  
+   # scan QR Code
+  flutter_barcode_scanner: ^1.0.1
+
+  # create QR Code
+  barcode_widget: ^1.5.0
 
 
 dev_dependencies:
@@ -75,10 +81,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: halter
+      fonts:
+        - asset: asset/fonts/halter.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

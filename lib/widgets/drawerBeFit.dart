@@ -1,9 +1,17 @@
+import 'package:befit_app/UI/Login.dart';
 import 'package:befit_app/UI/Profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DrwerBeFit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future<void> _signOut() async {
+      await FirebaseAuth.instance.signOut().then((value) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      });
+    }
+
     return SafeArea(
       child: ClipRRect(
         borderRadius: BorderRadius.only(
@@ -90,7 +98,28 @@ class DrwerBeFit extends StatelessWidget {
                         "Log Out",
                         style: TextStyle(color: Colors.blue),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        _signOut();
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            PageRouteBuilder(pageBuilder: (BuildContext context,
+                                Animation animation,
+                                Animation secondaryAnimation) {
+                              return Login();
+                            }, transitionsBuilder: (BuildContext context,
+                                Animation<double> animation,
+                                Animation<double> secondaryAnimation,
+                                Widget child) {
+                              return new SlideTransition(
+                                position: new Tween<Offset>(
+                                  begin: const Offset(1.0, 0.0),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child: child,
+                              );
+                            }),
+                            (Route route) => false);
+                      },
                     ),
                   ],
                 ),
